@@ -13,46 +13,46 @@ numero_saques = 0
 VALOR_LIMITE_SAQUE = 500
 QTD_VEZES_LIMITE_SAQUES = 3
 
-def valorValidoPara(valor):
+def eh_valido_para(valor):
     return valor > 0
 
-def depositarUseCase():
+def depositar_use_case():
     global saldo, extrato
     valor_deposito = float(input("Informe o valor do depósito: "))
     
-    if valorValidoPara(valor_deposito):
+    if eh_valido_para(valor_deposito):
         saldo += valor_deposito
         extrato += f"Depósito no valor de R$ {valor_deposito:.2f}\n"
     
     else:
         print("Operação falhou! O valor informado é inválido.")
         
-def excedeSaldoPelo(valor_saque):
+def excede_saldo_pelo(valor_saque):
     global saldo
     return valor_saque > saldo
 
-def excedeQuantidadeSaques():
+def excede_quantidade_saques():
     global numero_saques, QTD_VEZES_LIMITE_SAQUES
     return  numero_saques >= QTD_VEZES_LIMITE_SAQUES
 
-def excedeValorLimiteSaquePelo(valor_saque):
+def excede_valor_limite_saque_pelo(valor_saque):
     global VALOR_LIMITE_SAQUE
     return valor_saque > VALOR_LIMITE_SAQUE
             
-def sacarUseCase():
+def sacar_use_case():
     global saldo, extrato, numero_saques
     valor_saque = float(input("Informe o valor do saque: "))
     
-    if excedeSaldoPelo(valor_saque):
+    if excede_saldo_pelo(valor_saque):
         print("Operação falhou! Você não tem saldo suficiente.")
         
-    elif excedeValorLimiteSaquePelo(valor_saque):
+    elif excede_valor_limite_saque_pelo(valor_saque):
         print("Operação falhou! O valor do saque excede o limite.")
         
-    elif excedeQuantidadeSaques():
+    elif excede_quantidade_saques():
         print("Operação falhou! Número máximo de saques excedido.")
         
-    elif valorValidoPara(valor_saque):
+    elif eh_valido_para(valor_saque):
         saldo -= valor_saque
         extrato += f"Saque no valor de R$ {valor_saque:.2f}\n"
         numero_saques += 1
@@ -60,7 +60,7 @@ def sacarUseCase():
     else:
         print("Operação falhou! O valor informado é inválido.")
         
-def emitirExtratoUseCase():
+def emitir_extrato_use_case():
     global extrato, saldo
     print("\n================ EXTRATO ================")
     print("Não foram realizadas movimentações." if not extrato else extrato)
@@ -73,15 +73,15 @@ while True:
     opcao = input(menu)
 
     if opcao == "1":
-        depositarUseCase()
-        emitirExtratoUseCase()
+        depositar_use_case()
+        emitir_extrato_use_case()
 
     elif opcao == "2":
-        sacarUseCase()
-        emitirExtratoUseCase()
+        sacar_use_case()
+        emitir_extrato_use_case()
 
     elif opcao == "3":
-        emitirExtratoUseCase()
+        emitir_extrato_use_case()
 
     elif opcao == "4":
         break
